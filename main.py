@@ -66,51 +66,57 @@ def draw_hangman():
     my_label.image = my_image
 
 
-root = ctk.CTk()
-root.geometry("550x500")
-root.title("Hangman")
+def create_ui(root):    
+    frame =ctk.CTkFrame(master=root)
+    frame.pack(pady=20, padx=40, fill="both", expand=True)
+    
+    title = ctk.CTkLabel(master=frame, text='Hangman', font=('Arial', 24))
+    title.pack(pady=12, padx=10)
+    
+    my_label = ctk.CTkLabel(frame, text="", image="")
+    my_label.pack(pady=20)
+    my_image = ctk.CTkImage(dark_image=Image.open("blank_image.jpg"), size=(110,150))
+    my_label.configure(image=my_image)
+    my_label.image = my_image
+    
+    lives_label = ctk.CTkLabel(frame, text=f"Lives: {lives}", font=("Arial", 14))
+    lives_label.pack()
+    
+    word_display_label = ctk.CTkLabel(frame, text=" ".join(display_word), font=("Arial", 14))
+    word_display_label.pack()
 
-frame =ctk.CTkFrame(master=root)
-frame.pack(pady=20, padx=40, fill="both", expand=True)
-
-title = ctk.CTkLabel(master=frame, text='Hangman', font=('Arial', 24))
-title.pack(pady=12, padx=10)
-
-my_label = ctk.CTkLabel(frame, text="", image="")
-my_label.pack(pady=20)
-my_image = ctk.CTkImage(dark_image=Image.open("blank_image.jpg"), size=(110,150))
-my_label.configure(image=my_image)
-my_label.image = my_image
-
-lives_label = ctk.CTkLabel(frame, text=f"Lives: {lives}", font=("Arial", 14))
-lives_label.pack()
-
-word_display_label = ctk.CTkLabel(frame, text=" ".join(display_word), font=("Arial", 14))
-word_display_label.pack()
+    create_keyboard(root)
 
 
-MAX_COLUMNS = 6
-MAX_ROWS = 5
-keyboard_frame = ctk.CTkFrame(root)
-for i in range(0, MAX_COLUMNS):
-    keyboard_frame.columnconfigure(i, weight=1)
+def create_keyboard(root)
+    MAX_COLUMNS = 6
+    MAX_ROWS = 5
+    keyboard_frame = ctk.CTkFrame(root)
+    for i in range(0, MAX_COLUMNS):
+        keyboard_frame.columnconfigure(i, weight=1)
+    
+    for row in range(1, MAX_ROWS+1):
+        for col in range(0, MAX_COLUMNS):
+            letter = LETTERS[row][col]
+            if letter.isalpha():
+                btn = ctk.CTkButton(
+                    keyboard_frame, 
+                    text=f"{letter}", 
+                    font=("Arial", 18), 
+                )
+            else:
+                continue
+            
+            btn.grid(row=row, column=col, sticky=ctk.W+ctk.E)
+            btn.configure(command = lambda l=letter, b=btn : on_button_click(l, b))
+            btns.append(btn)
+    
+    keyboard_frame.pack(fill='x')
 
-for row in range(1, MAX_ROWS+1):
-    for col in range(0, MAX_COLUMNS):
-        letter = LETTERS[row][col]
-        if letter.isalpha():
-            btn = ctk.CTkButton(
-                keyboard_frame, 
-                text=f"{letter}", 
-                font=("Arial", 18), 
-            )
-        else:
-            continue
-        
-        btn.grid(row=row, column=col, sticky=ctk.W+ctk.E)
-        btn.configure(command = lambda l=letter, b=btn : on_button_click(l, b))
-        btns.append(btn)
 
-keyboard_frame.pack(fill='x')
-
-root.mainloop()
+if __name__ == '__main__':
+    root = ctk.CTk()
+    root.geometry("550x500")
+    root.title("Hangman")
+    create_ui(root)
+    root.mainloop()
