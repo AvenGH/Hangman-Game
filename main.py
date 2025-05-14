@@ -1,13 +1,20 @@
 import customtkinter as ctk
 import tkinter as tk
 from PIL import Image, ImageTk
+import random
 
 INITIAL_LIVES = lives = 6
 
-mystery_word = "apple tree"
-display_word = ["_" if char.isalpha() else char for char in mystery_word]
-game_over = False
-btns = []
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("dark-blue")
+
+with open("words.txt.") as f:
+    random_words = [word.strip() for word in f.readlines()]
+    print(random_words)
+    mystery_word = random.choice(random_words)
+    display_word = ["_" if char.isalpha() else char for char in mystery_word]
+    game_over = False
+    btns = []
 
 
 LETTERS = {
@@ -66,7 +73,11 @@ def draw_hangman():
     my_label.image = my_image
 
 
-def create_ui(root):    
+def create_ui(root):
+    global my_label
+    global lives_label
+    global word_display_label
+
     frame =ctk.CTkFrame(master=root)
     frame.pack(pady=20, padx=40, fill="both", expand=True)
     
@@ -117,6 +128,7 @@ def create_keyboard(root):
 if __name__ == '__main__':
     root = ctk.CTk()
     root.geometry("550x500")
-    root.title("Hangman")
+    root.resizable(False, False)
+    root.title("Hangman Client")
     create_ui(root)
     root.mainloop()
