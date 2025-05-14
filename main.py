@@ -88,7 +88,7 @@ def create_ui(root):
     create_keyboard(root)
 
 
-def create_keyboard(root)
+def create_keyboard(root):
     MAX_COLUMNS = 6
     MAX_ROWS = 5
     keyboard_frame = ctk.CTkFrame(root)
