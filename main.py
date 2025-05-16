@@ -8,7 +8,7 @@ INITIAL_LIVES = lives = 6
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 
-with open("words.txt.") as f:
+with open("words.txt") as f:
     random_words = [word.strip() for word in f.readlines()]
     print(random_words)
     mystery_word = random.choice(random_words)
